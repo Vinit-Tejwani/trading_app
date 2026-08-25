@@ -92,19 +92,27 @@ class _CreateWatchlistDialog extends StatefulWidget {
 
 class _CreateWatchlistDialogState extends State<_CreateWatchlistDialog> {
   late final TextEditingController _controller;
+  var _defaultNameInitialized = false;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController();
+  }
 
-    _controller = TextEditingController(
-      text: AppLocalizations.of(context).defaultWatchlistName,
-    );
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_defaultNameInitialized) return;
+
+    _controller.text = AppLocalizations.of(context).defaultWatchlistName;
 
     // Put the cursor at the end of the default text.
     _controller.selection = TextSelection.collapsed(
       offset: _controller.text.length,
     );
+    _defaultNameInitialized = true;
   }
 
   @override

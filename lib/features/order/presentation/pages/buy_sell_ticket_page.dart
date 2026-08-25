@@ -23,10 +23,16 @@ class BuySellTicketPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Resolve inherited dependencies before entering the provider factory.
+    // Provider factories are one-time lifecycle callbacks and must not listen
+    // to inherited widgets such as Localizations.
+    final portfolio = context.read<PortfolioRepository>();
+    final l10n = AppLocalizations.of(context);
+
     return BlocProvider(
-      create: (context) => OrderBloc(
-        context.read(),
-        l10n: AppLocalizations.of(context),
+      create: (_) => OrderBloc(
+        portfolio,
+        l10n: l10n,
       )..add(OrderInitialized(symbol)),
       child: _TicketView(symbol: symbol),
     );
