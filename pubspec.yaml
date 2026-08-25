@@ -1,0 +1,60 @@
+name: trading_app
+description: "A Flutter trading app with watchlists, live prices, buy/sell ticket, and holdings."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+
+  # State management
+  flutter_bloc: ^8.1.6
+  equatable: ^2.0.5
+
+  # Persistence
+  shared_preferences: ^2.3.2
+
+  # Money / decimal math
+  decimal: ^3.0.2
+
+  # Formatting
+  intl: ^0.20.2
+
+  # Utilities
+  uuid: ^4.5.1
+  collection: ^1.18.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  bloc_test: ^9.1.7
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.6
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/trading_app_icon.png
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/trading_app_icon.png
+  android: true
+  ios: true
+  android_12:
+    color: "#FFFFFF"
+    image: assets/trading_app_icon.png
+
+flutter:
+  uses-material-design: true
+  generate: true
