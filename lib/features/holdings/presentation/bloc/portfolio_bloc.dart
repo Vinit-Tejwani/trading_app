@@ -38,11 +38,15 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
 
     await _holdingsSub?.cancel();
     _holdingsSub = _repo.holdingsStream.listen(
-      (holdings) => add(PortfolioHoldingsUpdated(holdings)),
+      (holdings) {
+        if (!isClosed) add(PortfolioHoldingsUpdated(holdings));
+      },
     );
     await _balanceSub?.cancel();
     _balanceSub = _repo.balanceStream.listen(
-      (balance) => add(PortfolioBalanceUpdated(balance)),
+      (balance) {
+        if (!isClosed) add(PortfolioBalanceUpdated(balance));
+      },
     );
   }
 

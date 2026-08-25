@@ -33,7 +33,9 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     await _repo.load();
     emit(state.copyWith(watchlists: _repo.current, loading: false));
     await _sub?.cancel();
-    _sub = _repo.stream.listen((list) => add(WatchlistsUpdated(list)));
+    _sub = _repo.stream.listen((list) {
+      if (!isClosed) add(WatchlistsUpdated(list));
+    });
   }
 
   void _onUpdated(WatchlistsUpdated event, Emitter<WatchlistState> emit) {

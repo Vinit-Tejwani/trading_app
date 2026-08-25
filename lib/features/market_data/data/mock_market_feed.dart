@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/utils/decimal_utils.dart';
@@ -17,6 +18,9 @@ import '../domain/entities/stock.dart';
 class MockMarketFeed {
   MockMarketFeed._();
 
+  /// Creates an isolated feed for tests.
+  MockMarketFeed.forTesting() : this._();
+
   static final MockMarketFeed instance = MockMarketFeed._();
 
   final StreamController<PriceTick> _controller =
@@ -31,6 +35,12 @@ class MockMarketFeed {
   final Random _rng = Random(42);
 
   Stream<PriceTick> get ticks => _controller.stream;
+
+  /// Emits a deterministic tick for unit tests.
+  @visibleForTesting
+  void emitForTesting(PriceTick tick) {
+    if (!_controller.isClosed) _controller.add(tick);
+  }
 
   int get tickRateMs => _tickRateMs;
 

@@ -29,11 +29,13 @@ class MarketBloc extends Bloc<MarketEvent, MarketState> {
     final bySymbol = {
       for (final q in snapshot) q.stock.symbol: q,
     };
-    emit(state.copyWith(quotesBySymbol: bySymbol));
     await _sub?.cancel();
     _sub = _feed.ticks.listen(
-      (tick) => add(MarketTickReceived(tick)),
+      (tick) {
+        if (!isClosed) add(MarketTickReceived(tick));
+      },
     );
+    emit(state.copyWith(quotesBySymbol: bySymbol));
   }
 
   void _onTick(MarketTickReceived event, Emitter<MarketState> emit) {

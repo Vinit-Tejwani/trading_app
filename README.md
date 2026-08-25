@@ -17,23 +17,6 @@ The app uses a dark, institutional trading-terminal visual system inspired by mo
 - Centralized enum definitions in `lib/core/constants/enum.dart`
 - Localized UI strings and validation messages through Flutter gen_l10n
 
-### 5. Localization
-- English translations are maintained in `lib/l10n/app_en.arb`
-- Generated accessors are written to `lib/l10n/app_localizations.dart`
-- Flutter localization delegates and supported locales are registered in `MaterialApp`
-- Add another locale by creating a translated ARB file such as `app_hi.arb`, then run:
-
-```bash
-flutter gen-l10n
-```
-
-- Keep user-facing text in ARB resources rather than hardcoding it in widgets, dialogs, or validation logic.
-
-### 6. Code organization
-- Shared enum types live in `lib/core/constants/enum.dart`.
-- Feature-specific data, domain entities, blocs, pages, and widgets remain grouped under `lib/features/`.
-- Generated localization files should not be edited manually; update the ARB files and regenerate them.
-
 ### 1. Watchlists
 - Create, rename, and delete multiple watchlists
 - Add stocks from a 10-stock picker
@@ -65,6 +48,23 @@ flutter gen-l10n
 - Sort order updates as prices move (rows re-rank live)
 - Tap a holding to open the Buy/Sell ticket
 - Empty state when no holdings exist
+
+### 5. Localization
+- English translations are maintained in `lib/l10n/app_en.arb`.
+- Generated accessors are written to `lib/l10n/app_localizations.dart`.
+- Flutter localization delegates and supported locales are registered in `MaterialApp`.
+- Add another locale by creating a translated ARB file such as `app_hi.arb`, then run:
+
+```bash
+flutter gen-l10n
+```
+
+- Keep user-facing text in ARB resources rather than hardcoding it in widgets, dialogs, or validation logic.
+
+### 6. Code organization
+- Shared enum types live in `lib/core/constants/enum.dart`.
+- Feature-specific data, domain entities, blocs, pages, and widgets remain grouped under `lib/features/`.
+- Generated localization files should not be edited manually; update the ARB files and regenerate them.
 
 ## The 10 stocks
 
@@ -138,6 +138,16 @@ flutter run -d chrome
 ```bash
 flutter test
 ```
+
+### Measure and enforce business-logic coverage
+The repository and BLoC implementation files have an enforced 100% line-coverage target. UI, generated localization, and app bootstrap code are outside this focused gate.
+
+```bash
+flutter test --coverage
+dart run tool/check_target_coverage.dart
+```
+
+The coverage checker reports each targeted file and exits with a failure if any targeted executable line is uncovered.
 
 ### Generate localization files
 Localization code is generated from the ARB resources configured in `l10n.yaml`:
